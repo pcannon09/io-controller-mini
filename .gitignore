@@ -1,0 +1,10 @@
+# Compiled files
+obj/
+
+main
+
+./vendor/conio-master/*.o
+./vendor/conio-master/*.obj
+
+./vendor/conio-master/main*
+
