@@ -159,15 +159,21 @@ namespace ioc
 
     namespace color
     {
+        [[deprecated("`ioc::color::help()` function is deprecated")]]
         void help();
         void set(std::string color);
         void setBackground(std::string color);
+
+        [[deprecated("`ioc::color::reset()` function is deprecated, use `ioc::color::set(\"reset\")` or / and `ioc::color::setBackground(\"reset\")`")]]
         void reset();
     }
 
     namespace rule
     {
+        [[deprecated("`ioc::rule::colorReset(...)` is deprecated")]]
         void colorReset(bool val);
+
+        [[deprecated("`ioc::rule::reset()` is deprecated")]]
         void reset();
     }
 
@@ -182,18 +188,11 @@ namespace ioc
     void errorNoEnd(T message)
     {
         ioc::color::set("red");
-
-        if (ioc::rules.errorColorReset == true)
-        {
-            ioc::color::setBackground("reset");
-        }
+        ioc::color::setBackground("reset");
 
         std::cout<<"Error: "<<message<<"\n";
 
-        if (ioc::rules.setLastColorBgWhenErrorOrWarnEnds == true)
-        {
-            ioc::color::setBackground(ioc_last_bgColor);
-        }
+        ioc::color::setBackground(ioc_last_bgColor);
     }
     
     template <typename T, typename... Args>
@@ -204,22 +203,14 @@ namespace ioc
     void errorNoEnd(T text, Args... args)
     {
         ioc::color::set("red");
-
-        if (ioc::rules.errorColorReset == true)
-        {
-            ioc::color::setBackground("reset");
-        }
+        ioc::color::setBackground("reset");
 
         std::cout<<"Error: "<<text<<" ";
 
         ioc::print(args...);
 
         ioc::color::set(ioc_last_textColor);
-
-        if (ioc::rules.setLastColorBgWhenErrorOrWarnEnds == true)
-        {
-            ioc::color::setBackground(ioc_last_bgColor);
-        }
+        ioc::color::setBackground(ioc_last_bgColor);
     }
 
     template <typename T>
@@ -244,19 +235,11 @@ namespace ioc
     void warn(T message)
     {
         ioc::color::set("yellow");
-
-        if (ioc::rules.warnColorReset == true)
-        {
-            ioc::color::setBackground("reset");
-        }
+        ioc::color::setBackground("reset");
 
         std::cout<<"Warn: "<<message<<"\n";
 
-        if (ioc::rules.setLastColorBgWhenErrorOrWarnEnds == true)
-        {
-            ioc::color::setBackground(ioc_last_bgColor);
-        }
-
+        ioc::color::setBackground(ioc_last_bgColor);
         ioc::color::set(ioc_last_textColor);
     }
     
@@ -268,21 +251,13 @@ namespace ioc
     void warn(T text, Args... args)
     {
         ioc::color::set("yellow");
-
-        if (ioc::rules.warnColorReset == true)
-        {
-            ioc::color::setBackground("reset");
-        }
+        ioc::color::setBackground("reset");
 
         std::cout<<"Warn: "<<text<<"\n";
 
         ioc::print(args...);
 
-        if (ioc::rules.setLastColorBgWhenErrorOrWarnEnds == true)
-        {
-            ioc::color::setBackground(ioc_last_bgColor);
-        }
-
+        ioc::color::setBackground(ioc_last_bgColor);
         ioc::color::set(ioc_last_textColor);
     }
 

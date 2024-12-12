@@ -1,5 +1,6 @@
-#include "structs.hpp"
-#include "ioController.hpp"
+#include "../include/ioController.hpp"
+
+#include <iostream>
 
 int startCallCount = 0;
 
@@ -18,14 +19,12 @@ namespace ioc
         platform = "linux apple";
 
 #endif
-        if (startCallCount == 0)
+        if (startCallCount < 0)
         {
-            ioc::rule::reset();
-        }
+            errorNoEnd("Error starting code, make sure that variable 'startCallCount' is 0 ( 'startCallCount is'", startCallCount, ")");
 
-        else if (startCallCount < 0)
-        {
-            error("Error starting code, make sure that variable 'startCallCount' is 0 ( 'startCallCount is'", startCallCount, ")");
+            std::exit(1);
+
         }
 
         else if (startCallCount > 0)

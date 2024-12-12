@@ -20,87 +20,6 @@ int main()
     ioc::kb::update();
     ioc::echo("Hello world\nThere is no new line here\n ");
 
-    // Emulation
-
-    ioc::kb::emulateKey("h", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("e", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("l", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("l", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("o", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("space", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("w", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("o", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("r", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("l", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ioc::kb::emulateKey("d", true);
-
-    if (ioc_key_is_pressed)
-    {
-        ioc::print("You emulated the", ioc_key_pressed, "key");
-    }
-
-    ///
-
     ioc::println("Hi!", "Type number 2");
 
     while (1)
@@ -201,11 +120,7 @@ int main()
 
     const char *message = "Bye!";
 
-    ioc::rules.setLastColorBgWhenErrorOrWarnEnds = false;
-    ioc::rules.errorColorReset = true;
-    ioc::rules.warnColorReset = false;
-
-    ioc::color::reset();
+    ioc::color::set("reset");
 
     std::string echoThing = "{NONE}";
 

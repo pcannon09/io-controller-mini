@@ -1,5 +1,3 @@
-#define CREATE_RULES
-
 #include <string>
 #include <iostream>
 #include <sys/ioctl.h>
@@ -73,18 +71,6 @@ namespace ioc
         int getAscii()
         {
             return IOC_getche();
-        }
-
-        ///  @brief Checks if ioc_key_pressed.size() is bigger than 1 and value not "space"
-        void check()
-        {
-            if (ioc_key_pressed.size() > 1 && ioc_key_pressed != "space" && ioc_key_pressed != "<unknown>" && ioc_key_pressed != "return")
-            {
-                ioc::color::set("red");
-                std::cout<<"ioc_key_pressed size is bigger than 1" << "\n";
-                ioc::color::set("white");
-                std::exit(1);
-            }
         }
 
         /// @brief Detects if any key is pressed
@@ -697,22 +683,6 @@ namespace ioc
                 ioc_last_key_pressed = ioc_key_pressed;
             }
         }
-    
-        /// @brief Sets a key press without a key getting pressed
-        /// @param whatKey (std::string)
-        /// @param isKeyPressed (bool)
-        void emulateKey(std::string whatKey, bool isKeyPressed)
-        {
-            ioc_key_is_pressed = isKeyPressed;
-            ioc_key_pressed = whatKey;
-
-            ioc::kb::check();
-
-            if (ioc_key_is_pressed)
-            {
-                ioc_last_key_pressed = whatKey;
-            }
-        }
 
         /// @brief Resets the ioc_key_pressed and ioc_key_is_pressed to the original value
         void clear()
@@ -779,21 +749,7 @@ namespace ioc
     }
 
     namespace color
-    { 
-        /// @brief Resets color (Background color and text color)
-        void reset()
-        {
-            if (platform == "win32")
-            {
-                c_textcolor(7);
-            }
-
-            else if (platform == "linux apple")
-            {
-                std::cout << "\033[0m";
-            }
-        }
-
+    {
         /// @brief Sets the color of text in terminal
         /// @param color (std::string)
         void set(std::string color)
@@ -885,7 +841,15 @@ namespace ioc
 
             else if (color == "reset" || color == "r")
             {
-                std::cout << "\033[39m"; 
+                if (platform == "win32")
+                {
+                    c_textcolor(7);
+                }
+
+                else if (platform == "linux apple")
+                {
+                    std::cout << "\033[0m";
+                }
             }
 
             else
@@ -992,12 +956,12 @@ namespace ioc
             {
                 if (platform == "win32")
                 {
-                    std::cout << "\033[0;0m";
+                    c_textcolor(7);
                 }
 
                 else if (platform == "linux apple")
                 {
-                    std::cout << "\033[49m";
+                    std::cout << "\033[0m";
                 }
             }
 
@@ -1012,31 +976,12 @@ namespace ioc
             ioc_last_bgColor = color;
         }
     }
-
-    namespace rule
-    {
-        /// @brief Sets variable 'ioc::rules.warnColorReset' and 'ioc::rules.errorColorReset' to a boolean value
-        /// @param val (bool)
-        void colorReset(bool val)
-        {
-            ioc::rules.warnColorReset = val;
-            ioc::rules.errorColorReset = val;
-        }
-
-        /// @brief Resets all the rules as when the program started
-        void reset()
-        {
-            ioc::rules.warnColorReset = false;
-            ioc::rules.errorColorReset = false;
-            ioc::rules.setLastColorBgWhenErrorOrWarnEnds = true;
-            ioc::rules.newlineWhenTextInput = false;
-        }
-    }
-
+    
     /// @param status (int)
+    /// THINKING: param 2 might be a function call and end it with the program with the function
     void end(int status)
     {
-        ioc::color::reset();
+        ioc::color::set("reset");
         std::exit(status);
     }
 
@@ -1050,44 +995,9 @@ namespace ioc
         ioc::print(ioc_key_pressed);
         ioc::print(ioc_key_is_pressed);
 
-        if (ioc::rules.newlineWhenTextInput)
-        {
-            ioc::print(text);
-        }
-
-        else
-        {
-            ioc::echo(text);
-        }
-
         std::getline(std::cin.ignore(), inputAnswer);
 
         return inputAnswer;
-    }
-
-    namespace lower
-    {
-        char charType(char ch)
-        {
-            if (std::islower(ch))
-            {
-                return (char)std::toupper(ch);
-            }
-            
-            return ch;
-        }
-
-        std::string stringType(const std::string& str)
-        {
-            std::string result = str;
-            
-            for (char& c : result)
-            {
-                c = (char)std::tolower(static_cast<unsigned char>(c));
-            }
-            
-            return result;
-        }
     }
 
     std::string LOWER(const std::string& str)
@@ -1102,41 +1012,26 @@ namespace ioc
         return result;
     }
 
-    namespace upper
+    char charType(char ch)
     {
-        std::string strType(std::string &getStrParam)
+        if (std::isupper(ch))
         {
-            std::string total = getStrParam;
-
-            for (char& c : getStrParam)
-            {
-                c = (char)std::toupper(static_cast<unsigned char>(c));
-            }
-
-            return total;
+            return (char)std::tolower(ch);
         }
+        
+        return ch;
+    }
 
-        char charType(char ch)
+    std::string stringType(const std::string& str)
+    {
+        std::string result = str;
+        
+        for (char& c : result)
         {
-            if (std::isupper(ch))
-            {
-                return (char)std::tolower(ch);
-            }
-            
-            return ch;
+            c = (char)std::toupper(static_cast<unsigned char>(c));
         }
-
-        std::string stringType(const std::string& str)
-        {
-            std::string result = str;
-            
-            for (char& c : result)
-            {
-                c = (char)std::toupper(static_cast<unsigned char>(c));
-            }
-            
-            return result;
-        }
+        
+        return result;
     }
 
     std::string UPPER(const std::string& str) 
