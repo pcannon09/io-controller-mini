@@ -693,7 +693,7 @@ namespace ioc
 
     }
 
-    int terminalW()
+    int terminalH()
     {
         struct winsize w;
         ioctl(0, TIOCGWINSZ, &w);
@@ -701,7 +701,7 @@ namespace ioc
         return w.ws_row;
     }
 
-    int terminalH()
+    int terminalW()
     {
         struct winsize w;
         ioctl(0, TIOCGWINSZ, &w);
