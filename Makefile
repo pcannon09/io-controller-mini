@@ -3,7 +3,7 @@ TESTDIR = test
 INCDIR = include
 OBJDIR = obj
 CONIODIR = vendor/conio-master
-CPPVERSION = 17
+CPPVERSION = 11
 
 INCS = 
 OBJS = main.o ioController.o functions.o
